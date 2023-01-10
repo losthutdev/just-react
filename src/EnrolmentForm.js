@@ -2,76 +2,112 @@ import { useState } from "react";
 
 import "./App.css";
 
-function EnrolmentForm(props) {
+const EnrolmentForm = (props) => {
+  const [firstName, setFirstName] = useState("");
 
-    const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
-    const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
 
-    const [welcomeMessage, setWelcomeMessage] = useState("");
+  const [welcomeMessage, setWelcomeMessage] = useState("");
 
-    const handleSubmit = (event) => {
+  const handleClick = (event) => {
+    handleInputReset("", "", "");
 
-        setWelcomeMessage(`Welcome ${firstName} ${lastName}`);
-        props.setUpdatedSeats(props.currentSeats-1);
-        event.preventDefault();
+    setWelcomeMessage(`${firstName} ${lastName} enrolled. Email sent to -
 
-    };
+${email}`);
 
-    return (
+    props.setUpdatedSeats(props.currentSeats - 1);
 
-        <div>
+    event.preventDefault();
+  };
 
-            <form className="enrolForm" onSubmit={handleSubmit}>
+  //change of input value set method
 
-                <h1>{props.chosenProgram} Student Details</h1>
+  const handleInputChange = (setInput, event) => {
+    setInput(event.target.value);
+  };
 
-                <label>First name:</label>
+  //set input fields
 
-                <input
+  const handleInputReset = (fname, lname, email) => {
+    setFirstName(fname);
 
-                    type="text"
+    setLastName(lname);
 
-                    name="fname"
+    setEmail(email);
+  };
 
-                    onBlur={(event) => setFirstName(event.target.value)}
+  return (
+    <div>
+      <div className="enrolContainer">
+        <form className="enrolForm" name="enrolForm">
+          <ul className="ulEnrol">
+            <li>
+              <label for="firstname"></label>
 
-                />
+              <input
+                type="text"
+                className="inputFields"
+                id="firstname"
+                name="firstname"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(event) => handleInputChange(setFirstName, event)}
+              />
+            </li>
 
-                <br />
+            <li>
+              <label for="lastname"></label>
 
-                <label>Last name:</label>
+              <input
+                type="test"
+                className="inputFields"
+                id="lastname"
+                name="lastname"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(event) => handleInputChange(setLastName, event)}
+              />
+            </li>
 
-                <input
+            <li>
+              <label for="email"></label>
 
-                    type="text"
+              <input
+                type="email"
+                className="inputFields"
+                id="email"
+                name="email"
+                placeholder="Email"
+                value={email}
+                onChange={(event) => handleInputChange(setEmail, event)}
+              />
+            </li>
 
-                    name="lname"
+            <li id="center-btn">
+              <input
+                type="submit"
+                id="btnEnrol"
+                name="Enrol"
+                alt="Enrol"
+                value="Enrol"
+                onClick={handleClick}
+              />
+            </li>
 
-                    onBlur={(event) => setLastName(event.target.value)}
-
-                />
-
-                <br />
-
-                <br />
-
-                <input type="submit" value="Submit" />
-
-                <br />
-
-                <label id="studentMsg" className="message">
-
-                    {welcomeMessage}
-
-                </label>
-
-            </form>
-
-        </div>
-
-    );
-
-}
+            <li>
+              {" "}
+              <label id="studentMsg" className="message">
+                {welcomeMessage}
+              </label>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default EnrolmentForm;
